@@ -49,3 +49,4 @@ dsa_priv.pem
 distribute_options.yaml
 .vscode/settings.json
 appcast_generator.dart
+html_generator.dart

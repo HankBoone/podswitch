@@ -1,17 +1,19 @@
-Release Notes
+**Release Notes**
+
 v1.1.0
+
 Latest
 
-Major Changes
+**Major Changes**
 
 - Added auto-updater
 
-Minor Changes
+**Minor Changes**
 
 - UI changes
 - Housekeeping, cleanup functions
 
-Fixes
+**Fixes**
 
 - Bluetooth state corruption on page return
 - Added sqlite3 dll for database interaction
