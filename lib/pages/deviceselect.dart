@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:win_ble/win_ble.dart';
 import 'package:win_ble/win_file.dart';
@@ -18,23 +19,30 @@ class _DeviceSelectState extends State<DeviceSelect> {
   StreamSubscription? scanStream;
   StreamSubscription? connectionStream;
   StreamSubscription? bleStateStream;
+  static bool _isInitialized = false;
 
   bool isScanning = false;
-  BleState bleState = BleState.Unknown;
-
-  void initialize() async {
-    // Initialize the Ble Server
-    // First check if already 
-    await WinBle.initialize(
-      serverPath: await WinServer.path,
-      enableLog: true,
-    );
+  BleState bleState = BleState.On;
+  Future<void> initialize() async {
+    try {
+      await WinBle.initialize(serverPath: "BLEServer.exe", enableLog: true);
+      _isInitialized = true;
+    } catch (e) {
+      dispose();
+      throw e.toString();
+    }
   }
 
   @override
   void initState() {
     super.initState();
     initialize();
+    if (bleState == BleState.Unknown || bleState == BleState.Disabled) {
+      print(bleState);
+      setState(() {
+        WinBle.updateBluetoothState(true);
+      });
+    }
     // Listen to Scan Stream , we can cancel it in dispose()
     scanStream = WinBle.scanStream.listen((event) {
       setState(() {
@@ -68,10 +76,10 @@ class _DeviceSelectState extends State<DeviceSelect> {
       });
     });
 
-    // Start scanning if Bluetooth is enabled
-    if (bleState == BleState.On) {
-      startScanning();
-    }
+    // // Start scanning if Bluetooth is enabled
+    // if (bleState == BleState.On) {
+    //   startScanning();
+    // }
   }
 
   String bleStatus = "";
@@ -102,7 +110,8 @@ class _DeviceSelectState extends State<DeviceSelect> {
   }
 
   onDeviceTap(BleDevice device) {
-    Navigator.push(
+    WinBle.dispose();
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
           builder: (context) => DeviceInfo(
@@ -117,6 +126,7 @@ class _DeviceSelectState extends State<DeviceSelect> {
     scanStream?.cancel();
     connectionStream?.cancel();
     bleStateStream?.cancel();
+    WinBle.dispose();
     super.dispose();
   }
 
@@ -195,12 +205,19 @@ class _DeviceSelectState extends State<DeviceSelect> {
                         ? "Turn off Bluetooth"
                         : "Turn on Bluetooth", () {
                   if (bleState == BleState.On) {
-                    WinBle.updateBluetoothState(false);
-                  } else {
-                    WinBle.updateBluetoothState(true);
+                    WinBle.updateBluetoothState(false).then((state) {
+                      setState(() {
+                        bleState = BleState.Off;
+                      });
+                    });
+                  } else if (bleState == BleState.Off) {
+                    WinBle.updateBluetoothState(true).then((state) {
+                      setState(() {
+                        bleState = BleState.On;
+                      });
+                    });
                   }
                 }, Colors.blue),
-                
               ],
             ),
             const Divider(),
@@ -221,7 +238,6 @@ class _DeviceSelectState extends State<DeviceSelect> {
                         return InkWell(
                           onTap: () {
                             stopScanning();
-
                             onDeviceTap(device);
                           },
                           child: Card(
