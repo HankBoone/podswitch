@@ -6,10 +6,10 @@ class WindowsPlatform {
   static const MethodChannel _channel = MethodChannel('app.nordbot.podswitch');
 
   // Function to get the microphone state and return it to the caller.
-  static Future<bool> getMicrophoneState() async {
+  static Future<bool?> getMicrophoneState() async {
     try {
       // Invoke the platform method to get the microphone state.
-      final bool result = await _channel.invokeMethod('getMicrophoneState');
+      bool? result = await _channel.invokeMethod('getMicrophoneState');
       return result;
     } on PlatformException catch (e) {
       // Handle any platform-specific errors here.
