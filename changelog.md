@@ -1,20 +1,13 @@
 **Release Notes**
 
-v1.1.0
+v1.1.1
 
 Latest
 
 **Major Changes**
 
-- Added auto-updater
-
-**Minor Changes**
-
-- UI changes
-- Housekeeping, cleanup functions
+- Removed DLL loader
 
 **Fixes**
 
-- Bluetooth state corruption on page return
-- Added sqlite3 dll for database interaction
-- Removed console window popups
+- Sqlite3.dll loading for sqlite database interaction

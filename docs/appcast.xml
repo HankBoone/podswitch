@@ -5,16 +5,16 @@
        <description>Most recent updates to podswitch</description>
        <language>en</language>
        <item>
-         <title>Version 1.1.0+1</title>
+         <title>Version 1.1.1+1</title>
          <sparkle:releaseNotesLink>
            https://hankboone.github.io/podswitch/changelog.html
          </sparkle:releaseNotesLink>
-         <pubDate>Wed, 13 Sep 2023 00:34:27 +0800</pubDate>
-         <enclosure url="https://github.com/HankBoone/podswitch/releases/latest/download/podswitch-1.1.0+1-windows-setup.exe"
-           sparkle:dsaSignature="MDwCHHN8CpPwJUqIeql4QnKxazQyphnCX8zm4E/gbkACHGvNQ0hq+zq3Q0t1M5V3cRfDM1HawEnB+ckXVnY="
-           sparkle:version="1.1.0+1"
+         <pubDate>Wed, 13 Sep 2023 01:14:11 +0800</pubDate>
+         <enclosure url="https://github.com/HankBoone/podswitch/releases/latest/download/podswitch-1.1.1+1-windows-setup.exe"
+           sparkle:dsaSignature="MDwCHGC1ljj1A/5LSIB0HszCXnYUjrXCIuTSdWEKDncCHBfWKa93ZTXhgCfF2K9lgDxfd7NI6A0T7wMhqhc="
+           sparkle:version="1.1.1+1"
            sparkle:os="windows-x64"
-           length="11342104"
+           length="12272066"
            type="application/octet-stream" />
        </item>
      </channel>

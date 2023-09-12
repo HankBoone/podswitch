@@ -28,8 +28,8 @@ Name: "launchAtStartup"; Description: "{cm:AutoStartProgram,{{DISPLAY_NAME}}}"; 
 Source: "{{SOURCE_DIR}}\\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\aaron_xzjgb2e\Projects\podswitch\MicMuteToggle.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\aaron_xzjgb2e\Projects\podswitch\BLEServer.exe"; DestDir: "{app}"; Flags: ignoreversion
-; Source: "C:\Users\aaron_xzjgb2e\Projects\podswitch\sqlite3.dll"; DestDir: "{app}"; Flags: ignoreversion
-; Source: "C:\Users\aaron_xzjgb2e\Projects\podswitch\sqlite3.def"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\aaron_xzjgb2e\Projects\podswitch\sqlite3.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\aaron_xzjgb2e\Projects\podswitch\sqlite3.def"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
