@@ -7,11 +7,11 @@
        <item>
          <title>Version 1.1.0+1</title>
          <sparkle:releaseNotesLink>
-          https://hankboone.github.io/podswitch/changelog.html
+           https://hankboone.github.io/podswitch/changelog.html
          </sparkle:releaseNotesLink>
-         <pubDate>Tue, 12 Sep 2023 23:17:33 +0800</pubDate>
+         <pubDate>Wed, 13 Sep 2023 00:34:27 +0800</pubDate>
          <enclosure url="https://github.com/HankBoone/podswitch/releases/latest/download/podswitch-1.1.0+1-windows-setup.exe"
-           sparkle:dsaSignature="MD0CHQDiD2gaXQH/aHA0EpZflO8G360qbM3MnSS9UOWEAhwUFKyGdThmyjmovLEUWZJ5QgdZ9l6jTTasTzGF"
+           sparkle:dsaSignature="MDwCHHN8CpPwJUqIeql4QnKxazQyphnCX8zm4E/gbkACHGvNQ0hq+zq3Q0t1M5V3cRfDM1HawEnB+ckXVnY="
            sparkle:version="1.1.0+1"
            sparkle:os="windows-x64"
            length="11342104"
