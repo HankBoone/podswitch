@@ -1,9 +1,6 @@
 import 'dart:async';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:win_ble/win_ble.dart';
-import 'package:win_ble/win_file.dart';
 
 import '../widgets/sidebar.dart';
 import 'deviceinfo.dart';
@@ -38,7 +35,6 @@ class _DeviceSelectState extends State<DeviceSelect> {
     super.initState();
     initialize();
     if (bleState == BleState.Unknown || bleState == BleState.Disabled) {
-      print(bleState);
       setState(() {
         WinBle.updateBluetoothState(true);
       });
