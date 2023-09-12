@@ -66,6 +66,8 @@ flutter:
     - assets/images/PodSwitch_Logo.png
     - assets/images/PodSwitch_Title.png
     - assets/bin/MicMuteToggle.exe
+    - assets/bin/sqlite3.dll
+    - assets/bin/sqlite3.def
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
