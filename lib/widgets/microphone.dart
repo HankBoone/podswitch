@@ -65,9 +65,7 @@ class MicrophoneWidgetState extends State<MicrophoneWidget> {
                 ),
                 Text(
                   _microphoneState ? 'Mute Microphone' : 'Unmute Microphone',
-                  style: TextStyle(
-                    color: _microphoneState ? Colors.green : Colors.red,
-                  ),
+                  
                 ),
               ],
             )),

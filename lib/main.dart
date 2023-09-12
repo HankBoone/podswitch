@@ -12,13 +12,15 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'PodSwitch',
       theme: ThemeData(
-        useMaterial3: true,
+        primaryColor: Colors.blue, // Change to your desired accent color
+        secondaryHeaderColor: Colors.green,
+        fontFamily: 'Roboto', // Use a modern font
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: const HomePage(),
     );

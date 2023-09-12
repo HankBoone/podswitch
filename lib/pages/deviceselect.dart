@@ -183,7 +183,6 @@ class _DeviceSelectState extends State<DeviceSelect> {
                         },
                         Colors.red,
                         textColor: Colors.white,
-                        buttonIcon: Icons.stop,
                       )
                     : kButton(
                         "Start Scan",
@@ -192,7 +191,6 @@ class _DeviceSelectState extends State<DeviceSelect> {
                         },
                         Colors.green,
                         textColor: Colors.white,
-                        buttonIcon: Icons.play_arrow,
                       ),
                 kButton(
                     bleState == BleState.On
@@ -265,7 +263,6 @@ class _DeviceSelectState extends State<DeviceSelect> {
             txt,
             style: TextStyle(fontSize: 20, color: textColor),
           ),
-          Icon(buttonIcon)
         ],
       ),
     );

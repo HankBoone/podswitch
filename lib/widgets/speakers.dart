@@ -56,9 +56,6 @@ class SpeakersWidgetState extends State<SpeakersWidget> {
                 ),
                 Text(
                   _speakersAreMuted ? 'Unmute Speakers' : 'Mute Speakers',
-                  style: TextStyle(
-                    color: _speakersAreMuted ? Colors.red : Colors.green,
-                  ),
                 ),
               ],
             )),
