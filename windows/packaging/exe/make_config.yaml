@@ -1,0 +1,11 @@
+# The value of AppId uniquely identifies this application.
+# Do not use the same AppId value in installers for other applications.
+app_id: 7385d2e9-c4ae-441f-8b77-49d3750f400f
+publisher: NordBot, Inc.
+publisher_url: https://github.com/HankBoone/podswitch
+display_name: PodSwitch
+create_desktop_icon: true
+install_dir_name: PodSwitch
+script_template: inno_setup.iss
+locales:
+  - en

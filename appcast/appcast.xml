@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+    <channel>
+        <title>podswitch</title>
+        <description>Most recent updates to PodSwitch</description>
+        <language>en</language>
+        <item>
+            <title>Version 1.1.0</title>
+            <sparkle:releaseNotesLink>
+                https://github.com/HankBoone/podswitch/releases/latest
+            </sparkle:releaseNotesLink>
+            <pubDate>Mon, 11 Sep 2023 17:15:00 +0800</pubDate>
+            <enclosure url="https://github.com/HankBoone/podswitch/releases/latest/download/podswitch-1.1.0+1-windows-setup.exe"
+                sparkle:dsaSignature="MD0CHCee7uXDDqnUAJsTmo1iS6HJ1aAwLsppzw8ILssCHQDJ7HlHCd/kzf2oo6e3tWowT0HOSzzRMP45Ghts"
+                sparkle:version="1.1.0"
+                sparkle:os="windows"
+                length="0"
+                type="application/octet-stream" />
+        </item>
+    </channel>
+</rss>

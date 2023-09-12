@@ -1,7 +1,9 @@
 import 'dart:async';
+
 import 'package:path/path.dart';
 import 'package:podswitch/database/models/favorites_db.dart';
 import 'package:sqflite/sqflite.dart';
+
 
 class DatabaseService {
   Database? _database;
@@ -25,17 +27,12 @@ class DatabaseService {
     var database = await openDatabase(
       path,
       version: 1,
-      onCreate: (db, version) async {
-        await FavoritesDB().createTable(db);
-        
-        // Create indexes here
-        await db.execute(
-          'CREATE INDEX IF NOT EXISTS address_index ON favorites (bluetoothAddress)');
-        await db.execute(
-          'CREATE INDEX IF NOT EXISTS name_index ON favorites (localName)');
-      },
+      onCreate: create,
       singleInstance: true,
     );
     return database;
   }
+
+  Future<void> create(Database database, int version) async =>
+      await FavoritesDB().createTable(database);
 }

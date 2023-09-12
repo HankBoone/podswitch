@@ -65,7 +65,7 @@ void initMethodChannel(flutter::FlutterEngine* flutter_instance) {
 
                     // Assuming you have toggled the microphone state successfully,
                     // return the new state to Dart.
-                    result->Success(isMicrophoneEnabled);
+                    result->Success(!isMicrophoneEnabled);
                 }
                 else if (call.method_name().compare("getMicrophoneState") == 0) {
                     bool microphoneState = GetMicrophoneState();

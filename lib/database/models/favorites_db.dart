@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:sqflite/sqflite.dart';
 import 'package:podswitch/database/database_service.dart';
 import 'package:podswitch/database/models/favorite.dart';
+import 'package:sqflite/sqflite.dart';
 
 class FavoritesDB {
   final tableName = 'favorites';
