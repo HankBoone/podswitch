@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:podswitch/database/models/favorites_db.dart';
 import 'package:podswitch/widgets/microphone.dart';
@@ -33,7 +34,9 @@ class _DeviceInfoState extends State<DeviceInfo> {
 
   fetchFavorites() async {
     final favorites = await favoritesDb.fetchAll();
-    print(favorites);
+    if (kDebugMode) {
+      print(favorites);
+    }
     setState(() {
       devices = favorites;
     });
@@ -123,7 +126,9 @@ class _DeviceInfoState extends State<DeviceInfo> {
 
   addFavorite(BleDevice device) {
     if (!inDevices(address: device.address)) {
-      print(device.toJson());
+      if (kDebugMode) {
+        print(device.toJson());
+      }
 
       final List<String> serviceUuids =
           device.serviceUuids.map((dynamic uuid) => uuid.toString()).toList();
@@ -177,7 +182,9 @@ class _DeviceInfoState extends State<DeviceInfo> {
 
     _characteristicValueStream =
         WinBle.characteristicValueStream.listen((event) {
-      print("CharValue : $event");
+      if (kDebugMode) {
+        print("CharValue : $event");
+      }
     });
 
     fetchFavorites();
@@ -195,10 +202,14 @@ class _DeviceInfoState extends State<DeviceInfo> {
       // Disconnect from the Bluetooth device if it's connected
       if (connected) {
         disconnect(device.address);
-        print('Disconnected from ${device.name}');
+        if (kDebugMode) {
+          print('Disconnected from ${device.name}');
+        }
       }
     } catch (e) {
-      print('Error during dispose: $e');
+      if (kDebugMode) {
+        print('Error during dispose: $e');
+      }
     } finally {
       super.dispose();
     }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:podswitch/database/models/favorites_db.dart';
 import 'package:podswitch/pages/deviceinfo.dart';
@@ -17,7 +18,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
   List<BleDevice> devices = <BleDevice>[];
   fetchFavorites() async {
     final favorites = await favoritesDb.fetchAll();
-    print(favorites);
+    if (kDebugMode) {
+      print(favorites);
+    }
     setState(() {
       devices = favorites;
     });

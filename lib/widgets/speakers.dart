@@ -33,7 +33,7 @@ class SpeakersWidgetState extends State<SpeakersWidget> {
 
   // Function to toggle the speakers state
   Future<void> _toggleSpeakersState() async {
-    var result = await FlutterVolumeController.setMute(!_speakersAreMuted);
+    await FlutterVolumeController.setMute(!_speakersAreMuted);
     setState(() {
       _speakersAreMuted = !_speakersAreMuted;
     });

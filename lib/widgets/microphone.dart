@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:podswitch/platform/windows.dart';
 
@@ -22,7 +20,6 @@ class MicrophoneWidgetState extends State<MicrophoneWidget> {
   // Function to update the microphone state
   Future<void> _updateMicrophoneState() async {
     final microphoneState = await WindowsPlatform.getMicrophoneState();
-    print(microphoneState);
     setState(() {
       _microphoneState = microphoneState;
     });

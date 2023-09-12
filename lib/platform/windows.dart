@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class WindowsPlatform {
@@ -12,7 +13,9 @@ class WindowsPlatform {
       return result;
     } on PlatformException catch (e) {
       // Handle any platform-specific errors here.
-      print('Error getting microphone state: $e');
+      if (kDebugMode) {
+        print('Error getting microphone state: $e');
+      }
       return false; // You can return an appropriate default value in case of an error.
     }
   }
@@ -25,7 +28,9 @@ class WindowsPlatform {
       return result;
     } on PlatformException catch (e) {
       // Handle any platform-specific errors here.
-      print('Error toggling microphone state: $e');
+      if (kDebugMode) {
+        print('Error toggling microphone state: $e');
+      }
       return false; // You can return an appropriate default value in case of an error.
     }
   }
