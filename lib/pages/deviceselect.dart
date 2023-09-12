@@ -106,7 +106,6 @@ class _DeviceSelectState extends State<DeviceSelect> {
   }
 
   onDeviceTap(BleDevice device) {
-    WinBle.dispose();
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -122,7 +121,6 @@ class _DeviceSelectState extends State<DeviceSelect> {
     scanStream?.cancel();
     connectionStream?.cancel();
     bleStateStream?.cancel();
-    WinBle.dispose();
     super.dispose();
   }
 
