@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:podswitch/widgets/bluetooth.dart';
 import 'package:win_ble/win_ble.dart';
-
 import '../widgets/sidebar.dart';
 import 'deviceinfo.dart';
 
 class DeviceSelect extends StatefulWidget {
   const DeviceSelect({Key? key}) : super(key: key);
+
   @override
   State<DeviceSelect> createState() => _DeviceSelectState();
 }
@@ -14,112 +15,49 @@ class DeviceSelect extends StatefulWidget {
 class _DeviceSelectState extends State<DeviceSelect> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   StreamSubscription? scanStream;
-  StreamSubscription? connectionStream;
   StreamSubscription? bleStateStream;
-  static bool _isInitialized = false;
-
   bool isScanning = false;
-  BleState bleState = BleState.On;
-  Future<void> initialize() async {
-    try {
-      await WinBle.initialize(serverPath: "BLEServer.exe", enableLog: true);
-      _isInitialized = true;
-    } catch (e) {
-      dispose();
-      throw e.toString();
-    }
-  }
-
+  String bleStatus = ""; // Define bleStatus
+  String bleError = ""; // Define bleError
   @override
   void initState() {
     super.initState();
-    initialize();
-    if (bleState == BleState.Unknown || bleState == BleState.Disabled) {
-      setState(() {
-        WinBle.updateBluetoothState(true);
-      });
-    }
-    // Listen to Scan Stream , we can cancel it in dispose()
+    Bluetooth().initialize();
+    Bluetooth().updateBluetoothState(true);
+
     scanStream = WinBle.scanStream.listen((event) {
       setState(() {
-        final index =
-            devices.indexWhere((element) => element.address == event.address);
-        // Updating existing device
+        final index = Bluetooth()
+            .devices
+            .indexWhere((element) => element.address == event.address);
         if (index != -1) {
-          final name = devices[index].name;
-          devices[index] = event;
-          // Putting back cached name
+          final name = Bluetooth().devices[index].name;
+          Bluetooth().devices[index] = event;
           if (event.name.isEmpty || event.name == 'N/A') {
-            devices[index].name = name;
+            Bluetooth().devices[index].name = name;
           }
         } else {
-          devices.add(event);
+          Bluetooth().devices.add(event);
         }
       });
     });
 
-    // Listen to Ble State Stream
     bleStateStream = WinBle.bleState.listen((BleState state) {
       setState(() {
-        bleState = state;
+        Bluetooth().bleState = state;
+        // Update bleStatus based on the Bluetooth state
+        if (state == BleState.On) {
+          bleStatus = "Bluetooth is On";
+        } else {
+          bleStatus = "Bluetooth is Off";
+        }
       });
     });
-
-    // Initialize the Bluetooth state
-    WinBle.bleState.first.then((state) {
-      setState(() {
-        bleState = state;
-      });
-    });
-
-    // // Start scanning if Bluetooth is enabled
-    // if (bleState == BleState.On) {
-    //   startScanning();
-    // }
-  }
-
-  String bleStatus = "";
-  String bleError = "";
-
-  List<BleDevice> devices = <BleDevice>[];
-
-  /// Main Methods
-  startScanning() {
-    if (bleState != BleState.On) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Please Check your Bluetooth , State : $bleState"),
-          backgroundColor: Colors.red,
-          duration: const Duration(seconds: 1)));
-      return;
-    }
-    WinBle.startScanning();
-    setState(() {
-      isScanning = true;
-    });
-  }
-
-  stopScanning() {
-    WinBle.stopScanning();
-    setState(() {
-      isScanning = false;
-    });
-  }
-
-  onDeviceTap(BleDevice device) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-          builder: (context) => DeviceInfo(
-                device: device,
-              )),
-    );
-    ();
   }
 
   @override
   void dispose() {
     scanStream?.cancel();
-    connectionStream?.cancel();
     bleStateStream?.cancel();
     super.dispose();
   }
@@ -127,7 +65,7 @@ class _DeviceSelectState extends State<DeviceSelect> {
   @override
   Widget build(BuildContext context) {
     Color getBluetoothTextColor() {
-      return bleState == BleState.On ? Colors.green : Colors.red;
+      return Bluetooth().bleState == BleState.On ? Colors.green : Colors.red;
     }
 
     return Scaffold(
@@ -157,7 +95,7 @@ class _DeviceSelectState extends State<DeviceSelect> {
         actions: [
           kBButton(
             "Bluetooth : ",
-            bleState == BleState.On ? "On" : "Off",
+            Bluetooth().bleState == BleState.On ? "On" : "Off",
             () {},
             stateTextColor: getBluetoothTextColor(),
           ),
@@ -179,7 +117,10 @@ class _DeviceSelectState extends State<DeviceSelect> {
                     ? kButton(
                         "Stop Scan",
                         () {
-                          stopScanning();
+                          Bluetooth().stopScanning();
+                          setState(() {
+                            isScanning = false;
+                          });
                         },
                         Colors.red,
                         textColor: Colors.white,
@@ -187,25 +128,28 @@ class _DeviceSelectState extends State<DeviceSelect> {
                     : kButton(
                         "Start Scan",
                         () {
-                          startScanning();
+                          Bluetooth().startScanning();
+                          setState(() {
+                            isScanning = true;
+                          });
                         },
                         Colors.green,
                         textColor: Colors.white,
                       ),
                 kButton(
-                    bleState == BleState.On
+                    Bluetooth().bleState == BleState.On
                         ? "Turn off Bluetooth"
                         : "Turn on Bluetooth", () {
-                  if (bleState == BleState.On) {
+                  if (Bluetooth().bleState == BleState.On) {
                     WinBle.updateBluetoothState(false).then((state) {
                       setState(() {
-                        bleState = BleState.Off;
+                        Bluetooth().bleState = BleState.Off;
                       });
                     });
-                  } else if (bleState == BleState.Off) {
+                  } else if (Bluetooth().bleState == BleState.Off) {
                     WinBle.updateBluetoothState(true).then((state) {
                       setState(() {
-                        bleState = BleState.On;
+                        Bluetooth().bleState = BleState.On;
                       });
                     });
                   }
@@ -221,16 +165,23 @@ class _DeviceSelectState extends State<DeviceSelect> {
             ),
 
             Expanded(
-              child: devices.isEmpty
+              child: Bluetooth().devices.isEmpty
                   ? noDeviceFoundWidget()
                   : ListView.builder(
-                      itemCount: devices.length,
+                      itemCount: Bluetooth().devices.length,
                       itemBuilder: (BuildContext context, int index) {
-                        BleDevice device = devices[index];
+                        BleDevice device = Bluetooth().devices[index];
                         return InkWell(
                           onTap: () {
-                            stopScanning();
-                            onDeviceTap(device);
+                            Bluetooth().stopScanning();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DeviceInfo(
+                                  device: device,
+                                ),
+                              ),
+                            );
                           },
                           child: Card(
                             child: ListTile(
@@ -303,7 +254,7 @@ class _DeviceSelectState extends State<DeviceSelect> {
             ? const CircularProgressIndicator()
             : InkWell(
                 onTap: () {
-                  startScanning();
+                  Bluetooth().startScanning();
                 },
                 child: const Icon(
                   Icons.bluetooth,
