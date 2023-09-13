@@ -1,19 +1,13 @@
 **Release Notes**
 
-v1.2.0
+v1.2.1
 
 Latest
 
-**Major Changes**
-
-- Devices now stay in list when navigating back to device select page
-- Changed method of loading sqlite3 dll
-
 **Minor Changes**
 
-- UI updates
+- Changed storage of database
 
 **Fixes**
 
-- Sqlite3.dll loading for sqlite database interaction
-- Navigating back to device select page no longer breaks bluetooth interaction
+- Application can now run as normal user and store favorites
