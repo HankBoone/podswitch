@@ -2,14 +2,16 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:podswitch/database/models/favorites_db.dart';
+import 'package:podswitch/widgets/bluetooth.dart';
 import 'package:podswitch/widgets/microphone.dart';
+import 'package:podswitch/widgets/sidebar.dart';
 import 'package:podswitch/widgets/speakers.dart';
-import 'package:win_ble/win_ble.dart';
-import '../widgets/sidebar.dart';
+import 'package:win_ble/win_ble.dart'; // You may need to import this if not already imported
 import 'package:flutter_volume_controller/flutter_volume_controller.dart';
 
 class DeviceInfo extends StatefulWidget {
   final BleDevice device;
+
   const DeviceInfo({Key? key, required this.device}) : super(key: key);
 
   @override
@@ -18,6 +20,7 @@ class DeviceInfo extends StatefulWidget {
 
 class _DeviceInfoState extends State<DeviceInfo> {
   late BleDevice device;
+  late WinBle server;
   final favoritesDb = FavoritesDB();
   TextEditingController serviceTxt = TextEditingController();
   TextEditingController characteristicTxt = TextEditingController();
@@ -69,9 +72,9 @@ class _DeviceInfoState extends State<DeviceInfo> {
           backgroundColor: Colors.blue,
           duration: _snackbarDuration));
 
-  connect(String address) async {
+  connect(BleDevice device) async {
     try {
-      await WinBle.connect(address);
+      await Bluetooth().connectDevice(device); // Use Bluetooth class
       showSuccess("Connected");
     } catch (e) {
       setState(() {
@@ -80,19 +83,21 @@ class _DeviceInfoState extends State<DeviceInfo> {
     }
   }
 
-  canPair(address) async {
-    bool canPair = await WinBle.canPair(address);
+  canPair(device) async {
+    bool canPair =
+        await Bluetooth().canPairDevice(device); // Use Bluetooth class
     showNotification("CanPair : $canPair");
   }
 
-  isPaired(address) async {
-    bool isPaired = await WinBle.isPaired(address);
+  isPaired(device) async {
+    bool isPaired =
+        await Bluetooth().isDevicePaired(device); // Use Bluetooth class
     showNotification("isPaired : $isPaired");
   }
 
   pair(String address) async {
     try {
-      await WinBle.pair(address);
+      await Bluetooth().pairDevice(device); // Use Bluetooth class
       showSuccess("Paired Successfully");
     } catch (e) {
       showError("PairError : $e");
@@ -102,9 +107,9 @@ class _DeviceInfoState extends State<DeviceInfo> {
     }
   }
 
-  unPair(String address) async {
+  unPair(BleDevice device) async {
     try {
-      await WinBle.unPair(address);
+      await Bluetooth().unpairDevice(device); // Use Bluetooth class
       showSuccess("UnPaired Successfully");
     } catch (e) {
       showError("UnPairError : $e");
@@ -114,9 +119,9 @@ class _DeviceInfoState extends State<DeviceInfo> {
     }
   }
 
-  disconnect(address) async {
+  disconnect(BleDevice device) async {
     try {
-      await WinBle.disconnect(address);
+      await Bluetooth().disconnectDevice(device); // Use Bluetooth class
       showSuccess("Disconnected");
     } catch (e) {
       if (!mounted) return;
@@ -166,6 +171,7 @@ class _DeviceInfoState extends State<DeviceInfo> {
     }
   }
 
+  StreamSubscription? _bleStateStream;
   StreamSubscription? _connectionStream;
   StreamSubscription? _characteristicValueStream;
 
@@ -174,7 +180,7 @@ class _DeviceInfoState extends State<DeviceInfo> {
     device = widget.device;
     // subscribe to connection events
     _connectionStream =
-        WinBle.connectionStreamOf(device.address).listen((event) {
+        Bluetooth().connectionStreamOf(device.address).listen((event) {
       setState(() {
         connected = event;
       });
@@ -196,12 +202,12 @@ class _DeviceInfoState extends State<DeviceInfo> {
   void dispose() {
     try {
       // Cancel stream subscriptions
+      // _bleStateStream?.cancel();
       _connectionStream?.cancel();
       _characteristicValueStream?.cancel();
-
       // Disconnect from the Bluetooth device if it's connected
       if (connected) {
-        disconnect(device.address);
+        disconnect(device);
         if (kDebugMode) {
           print('Disconnected from ${device.name}');
         }
@@ -260,10 +266,10 @@ class _DeviceInfoState extends State<DeviceInfo> {
               children: [
                 connected
                     ? kButton("Disconnect", () {
-                        disconnect(device.address);
+                        disconnect(device);
                       })
                     : kButton("Connect", () {
-                        connect(device.address);
+                        connect(device);
                       }),
                 Row(
                   children: [
@@ -310,7 +316,7 @@ class _DeviceInfoState extends State<DeviceInfo> {
                   pair(device.address);
                 }, enabled: connected),
                 kButton("UnPair", () {
-                  unPair(device.address);
+                  unPair(device);
                 }, enabled: connected),
               ],
             ),
