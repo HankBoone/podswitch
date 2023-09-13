@@ -6,6 +6,7 @@ import 'pages/home.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AutoUpdater().initUpdate();
+  sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
   runApp(const MyApp());
 }
