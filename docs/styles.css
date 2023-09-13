@@ -103,3 +103,42 @@ header .logo {
 .hero-right img:hover {
     transform: scale(1.05);
 }
+
+@media only screen and (max-width: 600px) {
+    .hero {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .hero-left {
+        padding: 20px;
+        height: auto;
+        margin-bottom: 75px;
+    }
+
+    .hero-left p {
+        width: 100%;
+    }
+
+    .hero-right {
+        padding: 10px;
+    }
+
+    .hero-right img {
+        max-width: 100%;
+        scale: 1.2;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 250px;
+    }
+
+    .buttons button {
+        margin: 10px 0;
+    }
+
+    
+  }
