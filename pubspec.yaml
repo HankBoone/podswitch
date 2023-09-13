@@ -36,13 +36,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   win_ble: ^1.0.1
   flutter_volume_controller: ^1.2.7
-  path: ^1.8.3
   auto_updater: ^0.1.7
   sqflite: ^2.3.0
   sqflite_common_ffi: ^2.3.0+2
   yaml: ^3.1.2
   intl: ^0.18.1
   markdown: ^7.1.1
+  path_provider: ^2.1.1
 
 dev_dependencies:
 
